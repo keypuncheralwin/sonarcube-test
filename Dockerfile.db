@@ -1,1 +1,13 @@
+# Use the official PostgreSQL image from Docker Hub
 FROM postgres:latest
+
+# Expose the default PostgreSQL port
+EXPOSE 5432
+
+# Set environment variables (these will be overridden by Render's environment variables)
+ENV POSTGRES_USER=sonarqube
+ENV POSTGRES_PASSWORD=sonarqube
+ENV POSTGRES_DB=sonarqube
+
+# Ensure proper ownership of the PostgreSQL data directory
+RUN chown -R postgres:postgres /var/lib/postgresql/data
