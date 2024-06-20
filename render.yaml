@@ -19,9 +19,7 @@ services:
     disk:
       name: sonarqube-db-data
       mountPath: /var/lib/postgresql/data
-    extraPorts:
-      - name: sonarqube
-        containerPort: 9000
+    containerPort: 9000
 
   - type: web
     name: sonarqube-db
