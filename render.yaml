@@ -6,7 +6,7 @@ services:
     branch: main
     dockerfilePath: Dockerfile
     buildCommand: ""
-    startCommand: "java -jar /opt/sonarqube/lib/sonar-application-${SONARQUBE_VERSION}.jar"
+    startCommand: ""
     envVars:
       - key: SONAR_JDBC_URL
         value: jdbc:postgresql://sonarqube-db:5432/sonarqube
@@ -16,8 +16,6 @@ services:
         value: ${SONAR_JDBC_PASSWORD}
     ports:
       - port: 9000
-    depends_on:
-      - sonarqube-db
 
   - type: web
     name: sonarqube-db
@@ -34,9 +32,6 @@ services:
         value: ${POSTGRES_PASSWORD}
       - key: POSTGRES_DB
         value: ${POSTGRES_DB}
-    volumes:
+    persistentVolumes:
       - name: sonarqube_db_data
         path: /var/lib/postgresql/data
-
-volumes:
-  - name: sonarqube_db_data
