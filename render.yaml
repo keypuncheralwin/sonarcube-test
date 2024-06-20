@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: sonarqube
+    env: docker
+    repo: https://github.com/your-repo/sonarcube-test
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    envVars:
+      - key: SONAR_JDBC_URL
+        value: jdbc:postgresql://sonarqube-db:5432/sonarqube
+      - key: SONAR_JDBC_USERNAME
+        fromSecret: sonar_jdbc_username
+      - key: SONAR_JDBC_PASSWORD
+        fromSecret: sonar_jdbc_password
+    ports:
+      - name: http
+        port: 9000
+
+  - type: private
+    name: sonarqube-db
+    env: docker
+    repo: https://github.com/your-repo/sonarcube-test
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    envVars:
+      - key: POSTGRES_USER
+        fromSecret: postgres_user
+      - key: POSTGRES_PASSWORD
+        fromSecret: postgres_password
+      - key: POSTGRES_DB
+        fromSecret: postgres_db
+
+volumes:
+  - name: sonarqube_db_data
+    fromSecret: sonarqube_db_data
