@@ -5,8 +5,8 @@ services:
     repo: https://github.com/keypuncheralwin/sonarcube-test
     branch: main
     dockerfilePath: Dockerfile
-    buildCommand: ""
-    startCommand: "java -jar /opt/sonarqube/lib/sonar-application-${SONARQUBE_VERSION}.jar"
+    plan: free
+    healthCheckPath: /
     envVars:
       - key: SONAR_JDBC_URL
         value: jdbc:postgresql://sonarqube-db:5432/sonarqube
@@ -14,11 +14,6 @@ services:
         value: ${SONAR_JDBC_USERNAME}
       - key: SONAR_JDBC_PASSWORD
         value: ${SONAR_JDBC_PASSWORD}
-    plan: free
-    healthCheckPath: /
-    disk:
-      name: sonarqube-db-data
-      mountPath: /var/lib/postgresql/data
 
   - type: web
     name: sonarqube-db
@@ -26,8 +21,7 @@ services:
     repo: https://github.com/keypuncheralwin/sonarcube-test
     branch: main
     dockerfilePath: Dockerfile.db
-    buildCommand: ""
-    startCommand: "docker-entrypoint.sh postgres"
+    plan: free
     envVars:
       - key: POSTGRES_USER
         value: ${POSTGRES_USER}
@@ -35,7 +29,3 @@ services:
         value: ${POSTGRES_PASSWORD}
       - key: POSTGRES_DB
         value: ${POSTGRES_DB}
-    plan: free
-    disk:
-      name: sonarqube-db-data
-      mountPath: /var/lib/postgresql/data
