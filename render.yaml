@@ -14,8 +14,14 @@ services:
         value: ${SONAR_JDBC_USERNAME}
       - key: SONAR_JDBC_PASSWORD
         value: ${SONAR_JDBC_PASSWORD}
-    ports:
-      - 9000
+    plan: free
+    healthCheckPath: /
+    disk:
+      name: sonarqube-db-data
+      mountPath: /var/lib/postgresql/data
+    extraPorts:
+      - name: sonarqube
+        containerPort: 9000
 
   - type: web
     name: sonarqube-db
@@ -32,3 +38,7 @@ services:
         value: ${POSTGRES_PASSWORD}
       - key: POSTGRES_DB
         value: ${POSTGRES_DB}
+    plan: free
+    disk:
+      name: sonarqube-db-data
+      mountPath: /var/lib/postgresql/data
