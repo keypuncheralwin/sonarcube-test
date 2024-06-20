@@ -16,10 +16,11 @@ services:
         value: ${SONAR_JDBC_PASSWORD}
     plan: free
     healthCheckPath: /
+    ports:
+      - port: 9000
     disk:
       name: sonarqube-db-data
       mountPath: /var/lib/postgresql/data
-    containerPort: 9000
 
   - type: web
     name: sonarqube-db
